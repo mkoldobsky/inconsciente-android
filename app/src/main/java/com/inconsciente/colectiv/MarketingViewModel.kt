@@ -3,11 +3,13 @@ package com.inconsciente.colectiv
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import network.InconscienteApi
-import network.MarketingProperty
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.await
 
 class MarketingViewModel : ViewModel() {
 
@@ -18,27 +20,32 @@ class MarketingViewModel : ViewModel() {
     val response: LiveData<String>
         get() = _response
 
-    /**
-     * Call getMarsRealEstateProperties() on init so we can display status immediately.
-     */
+    private var viewModelJob = Job()
+
+    private val coroutineScope = CoroutineScope(
+        viewModelJob + Dispatchers.Main )
+
     init {
-        getMarsRealEstateProperties()
+        getMarketingProperties()
     }
 
     /**
      * Sets the value of the status LiveData to the Mars API status.
      */
-    private fun getMarsRealEstateProperties() {
-        InconscienteApi.retrofitService.getProperties().enqueue(
-            object: Callback<List<MarketingProperty>> {
-                override fun onFailure(call: Call<List<MarketingProperty>>, t: Throwable) {
-                    _response.value = "Failure: " + t.message
-                }
-
-                override fun onResponse(call: Call<List<MarketingProperty>>, response: Response<List<MarketingProperty>>) {
-                    _response.value =
-                        "Success: ${response.body()?.size} Mars properties retrieved"
-                }
-            })
+    private fun getMarketingProperties() {
+        coroutineScope.launch {
+            var getPropertiesDeferred = InconscienteApi.retrofitService.getPropertiesAsync()
+            try {
+                var listResult = getPropertiesDeferred.await()
+                _response.value =
+                    "Success: ${listResult.size} marketing properties retrieved"
+            } catch (e: Exception) {
+                _response.value = "Failure: ${e.message}"
+            }
+        }
+    }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

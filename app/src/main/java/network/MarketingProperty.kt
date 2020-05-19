@@ -1,8 +1,11 @@
 package network
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class MarketingProperty(
-    val name: String,
+    val title: String,
     val description: String,
-    val img_Url: String,
+    val imageUrl: String,
     val url: String
 )
