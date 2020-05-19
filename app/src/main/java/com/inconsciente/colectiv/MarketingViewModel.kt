@@ -9,16 +9,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import network.InconscienteApi
-import retrofit2.await
+import network.MarketingProperty
+
 
 class MarketingViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the most recent response
     private val _response = MutableLiveData<String>()
 
-    // The external immutable LiveData for the response String
-    val response: LiveData<String>
-        get() = _response
+    private val _property = MutableLiveData<MarketingProperty>()
+
+    val property: LiveData<MarketingProperty>
+        get() = _property
+
 
     private var viewModelJob = Job()
 
@@ -37,8 +40,10 @@ class MarketingViewModel : ViewModel() {
             var getPropertiesDeferred = InconscienteApi.retrofitService.getPropertiesAsync()
             try {
                 var listResult = getPropertiesDeferred.await()
-                _response.value =
-                    "Success: ${listResult.size} marketing properties retrieved"
+                _response.value = "Success: ${listResult.size} marketing properties retrieved"
+                if (listResult.size > 0) {
+                    _property.value = listResult[0]
+                }
             } catch (e: Exception) {
                 _response.value = "Failure: ${e.message}"
             }
