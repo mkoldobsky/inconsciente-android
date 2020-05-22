@@ -4,8 +4,11 @@ package com.inconsciente.colectiv
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.inconsciente.colectiv.fragments.PhotoGridAdapter
+import com.inconsciente.colectiv.network.MarketingProperty
 
 
 @BindingAdapter("imageUrl")
@@ -21,4 +24,11 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
                 .error(R.drawable.ic_broken_image))
             .into(imgView)
     }
+}
+
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView,
+                     data: List<MarketingProperty>?) {
+    val adapter = recyclerView.adapter as PhotoGridAdapter
+    adapter.submitList(data)
 }

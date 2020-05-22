@@ -1,12 +1,11 @@
-package com.inconsciente.colectiv
+package com.inconsciente.colectiv.fragments
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.inconsciente.colectiv.R
+import com.inconsciente.colectiv.MarketingViewModel
 import com.inconsciente.colectiv.databinding.FragmentFirstBinding
-import com.inconsciente.colectiv.databinding.GridViewItemBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -25,8 +24,8 @@ class FirstFragment : Fragment() {
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-       //val binding = FragmentFirstBinding.inflate(inflater)
-        val binding = GridViewItemBinding.inflate(inflater)
+       val binding = FragmentFirstBinding.inflate(inflater)
+        //val binding = GridViewItemBinding.inflate(inflater)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.setLifecycleOwner(this)
@@ -35,6 +34,7 @@ class FirstFragment : Fragment() {
         binding.viewModel = viewModel
 
         setHasOptionsMenu(true)
+        binding.photosGrid.adapter = PhotoGridAdapter()
         return binding.root
     }
 

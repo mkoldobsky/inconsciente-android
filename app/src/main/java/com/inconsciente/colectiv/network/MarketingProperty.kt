@@ -1,4 +1,4 @@
-package network
+package com.inconsciente.colectiv.network
 
 import com.squareup.moshi.JsonClass
 

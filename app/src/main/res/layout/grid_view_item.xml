@@ -6,9 +6,25 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="viewModel"
-            type="com.inconsciente.colectiv.MarketingViewModel" />
+            name="property"
+            type="com.inconsciente.colectiv.network.MarketingProperty" />
     </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{property.title}" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{property.description}" />
 
     <ImageView
         android:id="@+id/marketing_image"
@@ -18,5 +34,6 @@
         android:adjustViewBounds="true"
         android:padding="2dp"
         tools:src="@tools:sample/backgrounds/scenic"
-        app:imageUrl="@{viewModel.property.imageUrl}"/>
+        app:imageUrl="@{property.imageUrl}"/>
+    </LinearLayout>
 </layout>

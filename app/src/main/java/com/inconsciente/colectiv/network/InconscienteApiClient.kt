@@ -1,4 +1,4 @@
-package network
+package com.inconsciente.colectiv.network
 
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
