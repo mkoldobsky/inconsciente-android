@@ -1,6 +1,6 @@
-
 package com.inconsciente.colectiv
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -20,15 +20,38 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken_image))
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+            )
             .into(imgView)
     }
 }
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView,
-                     data: List<MarketingProperty>?) {
+fun bindRecyclerView(
+    recyclerView: RecyclerView,
+    data: List<MarketingProperty>?
+) {
     val adapter = recyclerView.adapter as PhotoGridAdapter
     adapter.submitList(data)
+}
+
+@BindingAdapter("marketingApiStatus")
+fun bindStatus(
+    statusImageView: ImageView,
+    status: MarketingApiStatus?
+) {
+    when (status) {
+        MarketingApiStatus.LOADING -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading_animation)
+        }
+        MarketingApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        MarketingApiStatus.DONE -> {
+            statusImageView.visibility = View.GONE
+        }
+    }
 }
