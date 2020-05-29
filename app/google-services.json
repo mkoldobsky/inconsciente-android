@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "866509398047",
+    "firebase_url": "https://inconsciente-colectiv.firebaseio.com",
+    "project_id": "inconsciente-colectiv",
+    "storage_bucket": "inconsciente-colectiv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866509398047:android:fc28f62987fbdeb5d2f52a",
+        "android_client_info": {
+          "package_name": "com.inconsciente.colectiv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866509398047-ak2hs7lvnt2gpppjrt4mvqb0ltqd1p1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV_YjvrntGHgc44yRLcoo2bpTnsLqmN3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866509398047-ak2hs7lvnt2gpppjrt4mvqb0ltqd1p1m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
