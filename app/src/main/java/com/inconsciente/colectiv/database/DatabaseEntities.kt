@@ -23,3 +23,14 @@ fun List<MarketingEntity>.asDomainModel(): List<MarketingProperty> {
             url = it.url)
     }
 }
+
+fun List<MarketingProperty>.asDatabaseModel(): List<MarketingEntity>{
+    return map {
+        MarketingEntity(
+            title = it.title,
+            description = it.description,
+            imageUrl = it.imageUrl,
+            url = it.url
+        )
+    }
+}

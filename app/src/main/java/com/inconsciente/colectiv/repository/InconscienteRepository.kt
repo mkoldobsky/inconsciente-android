@@ -3,11 +3,12 @@ package com.inconsciente.colectiv.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.inconsciente.colectiv.database.InconscienteDatabase
-import com.inconsciente.colectiv.database.MarketingEntity
+import com.inconsciente.colectiv.database.asDatabaseModel
+
 import com.inconsciente.colectiv.database.asDomainModel
 import com.inconsciente.colectiv.network.InconscienteApi
 import com.inconsciente.colectiv.network.MarketingProperty
-import com.inconsciente.colectiv.network.asDatabaseModel
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

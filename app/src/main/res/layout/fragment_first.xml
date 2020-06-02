@@ -46,7 +46,7 @@
             app:spanCount="2"
             tools:itemCount="16"
             tools:listitem="@layout/grid_view_item"
-            app:listData="@{viewModel.properties.component1()}"/>
+            app:listData="@{viewModel.properties}"/>
 
         <ImageView
             android:id="@+id/status_image"

@@ -6,13 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.inconsciente.colectiv.database.getDatabase
+import com.inconsciente.colectiv.network.InconscienteApi
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.inconsciente.colectiv.network.InconscienteApi
-import com.inconsciente.colectiv.network.MarketingContainer
 import com.inconsciente.colectiv.network.MarketingProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
 import java.io.IOException
@@ -25,14 +24,15 @@ class MarketingViewModel(application: Application): AndroidViewModel(application
     // The internal MutableLiveData String that stores the most recent response
     private val _status = MutableLiveData<MarketingApiStatus>()
 
-    private val _properties = MutableLiveData<MarketingContainer>()
+    //private val _properties = MutableLiveData<List<MarketingProperty>>()
 
     val status: LiveData<MarketingApiStatus>
         get() = _status
 
-    val properties = _properties
 
     private val inconscienteRepository = InconscienteRepository(getDatabase(application))
+
+    val properties = inconscienteRepository.marketingList
 
     private var viewModelJob = Job()
 
@@ -51,16 +51,17 @@ class MarketingViewModel(application: Application): AndroidViewModel(application
      * background thread.
      */
     private fun refreshDataFromRepository() {
+
+        _status.value = MarketingApiStatus.LOADING
         coroutineScope.launch {
             try {
-                _status.value = MarketingApiStatus.LOADING
                 inconscienteRepository.refreshMarketing()
                 _status.value = MarketingApiStatus.DONE
 
 
             } catch (networkError: IOException) {
                 _status.value = MarketingApiStatus.ERROR
-                _properties.value = MarketingContainer(ArrayList())
+
             }
         }
     }
