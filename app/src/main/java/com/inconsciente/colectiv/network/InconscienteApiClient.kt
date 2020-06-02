@@ -24,7 +24,7 @@ private val retrofit = Retrofit.Builder()
 
 interface InconscienteApiClient {
     @GET("marketing")
-    fun getPropertiesAsync():
+    fun getMarketingPropertiesAsync():
             Deferred<List<MarketingProperty>>
 }
 
