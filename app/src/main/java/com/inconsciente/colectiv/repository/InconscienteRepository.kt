@@ -15,13 +15,13 @@ import kotlinx.coroutines.withContext
 
 class InconscienteRepository(private val database: InconscienteDatabase) {
 
-    val messageList: LiveData<List<MessageProperty>> = Transformations.map(database.inconscienteDao.getMarketings()) {
+    val messageList: LiveData<List<MessageProperty>> = Transformations.map(database.inconscienteDao.getMessages()) {
         it.asDomainModel()
     }
     suspend fun refreshMarketing() {
         withContext(Dispatchers.IO) {
-            val marketingList = InconscienteApi.retrofitService.getMarketingPropertiesAsync().await()
-            database.inconscienteDao.insertAll(marketingList.asDatabaseModel())
+            val messageList = InconscienteApi.retrofitService.getMessagePropertiesAsync().await()
+            database.inconscienteDao.insertAll(messageList.asDatabaseModel())
         }
     }
 }

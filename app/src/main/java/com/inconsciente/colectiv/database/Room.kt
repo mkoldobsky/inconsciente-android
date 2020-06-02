@@ -8,7 +8,7 @@ import androidx.room.*
 @Dao
 interface InconscienteDao {
     @Query("select * from messageentity")
-    fun getMarketings(): LiveData<List<MessageEntity>>
+    fun getMessages(): LiveData<List<MessageEntity>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll( videos: List<MessageEntity>)
 }
