@@ -7,13 +7,13 @@ import androidx.room.*
 
 @Dao
 interface InconscienteDao {
-    @Query("select * from marketingentity")
-    fun getMarketings(): LiveData<List<MarketingEntity>>
+    @Query("select * from messageentity")
+    fun getMarketings(): LiveData<List<MessageEntity>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll( videos: List<MarketingEntity>)
+    fun insertAll( videos: List<MessageEntity>)
 }
 
-@Database(entities = [MarketingEntity::class], version = 1)
+@Database(entities = [MessageEntity::class], version = 1)
 abstract class InconscienteDatabase: RoomDatabase() {
     abstract val inconscienteDao: InconscienteDao
 }

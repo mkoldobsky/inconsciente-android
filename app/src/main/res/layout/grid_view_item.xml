@@ -7,7 +7,7 @@
     <data>
         <variable
             name="property"
-            type="com.inconsciente.colectiv.network.MarketingProperty" />
+            type="com.inconsciente.colectiv.network.MessageProperty" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
