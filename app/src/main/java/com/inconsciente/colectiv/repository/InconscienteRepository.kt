@@ -18,7 +18,7 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
     val messageList: LiveData<List<MessageProperty>> = Transformations.map(database.inconscienteDao.getMessages()) {
         it.asDomainModel()
     }
-    suspend fun refreshMarketing() {
+    suspend fun refreshMessage() {
         withContext(Dispatchers.IO) {
             val messageList = InconscienteApi.retrofitService.getMessagePropertiesAsync().await()
             database.inconscienteDao.insertAll(messageList.asDatabaseModel())

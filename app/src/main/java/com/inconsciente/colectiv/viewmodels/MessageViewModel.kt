@@ -18,7 +18,7 @@ enum class MessageApiStatus { LOADING, ERROR, DONE }
 
 class MessageViewModel(application: Application): AndroidViewModel(application) {
 
-   
+
     private val _status = MutableLiveData<MessageApiStatus>()
 
     val status: LiveData<MessageApiStatus>
@@ -51,7 +51,7 @@ class MessageViewModel(application: Application): AndroidViewModel(application) 
             MessageApiStatus.LOADING
         coroutineScope.launch {
             try {
-                inconscienteRepository.refreshMarketing()
+                inconscienteRepository.refreshMessage()
                 _status.value =
                     MessageApiStatus.DONE
 

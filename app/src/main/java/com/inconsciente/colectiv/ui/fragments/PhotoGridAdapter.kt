@@ -1,4 +1,4 @@
-package com.inconsciente.colectiv.fragments
+package com.inconsciente.colectiv.ui.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
