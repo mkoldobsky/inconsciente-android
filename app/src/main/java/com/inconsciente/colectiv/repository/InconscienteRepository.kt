@@ -11,6 +11,7 @@ import com.inconsciente.colectiv.network.MessageProperty
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class InconscienteRepository(private val database: InconscienteDatabase) {
@@ -21,6 +22,7 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
     suspend fun refreshMessage() {
         withContext(Dispatchers.IO) {
             val messageList = InconscienteApi.retrofitService.getMessagePropertiesAsync().await()
+            Timber.i("inconsciente API called")
             database.inconscienteDao.insertAll(messageList.asDatabaseModel())
         }
     }
