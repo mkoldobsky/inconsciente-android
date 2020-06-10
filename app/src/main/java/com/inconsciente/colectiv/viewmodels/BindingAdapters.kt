@@ -1,4 +1,4 @@
-package com.inconsciente.colectiv
+package com.inconsciente.colectiv.viewmodels
 
 import android.view.View
 import android.widget.ImageView
@@ -7,8 +7,10 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.inconsciente.colectiv.fragments.PhotoGridAdapter
-import com.inconsciente.colectiv.network.MarketingProperty
+import com.inconsciente.colectiv.R
+import com.inconsciente.colectiv.ui.fragments.PhotoGridAdapter
+import com.inconsciente.colectiv.network.MessageProperty
+
 
 
 @BindingAdapter("imageUrl")
@@ -30,7 +32,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("listData")
 fun bindRecyclerView(
     recyclerView: RecyclerView,
-    data: List<MarketingProperty>?
+    data: List<MessageProperty>?
 ) {
     val adapter = recyclerView.adapter as PhotoGridAdapter
     adapter.submitList(data)
@@ -39,18 +41,18 @@ fun bindRecyclerView(
 @BindingAdapter("marketingApiStatus")
 fun bindStatus(
     statusImageView: ImageView,
-    status: MarketingApiStatus?
+    status: MessageApiStatus?
 ) {
     when (status) {
-        MarketingApiStatus.LOADING -> {
+        MessageApiStatus.LOADING -> {
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.loading_animation)
         }
-        MarketingApiStatus.ERROR -> {
+        MessageApiStatus.ERROR -> {
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.ic_connection_error)
         }
-        MarketingApiStatus.DONE -> {
+        MessageApiStatus.DONE -> {
             statusImageView.visibility = View.GONE
         }
     }

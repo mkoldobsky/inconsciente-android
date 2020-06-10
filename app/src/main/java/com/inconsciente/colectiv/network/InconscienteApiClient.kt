@@ -10,7 +10,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
-private const val BASE_URL = "https://inconsciente-api.herokuapp.com"
+//private const val BASE_URL = "https://inconsciente-api.herokuapp.com"
+private const val BASE_URL = "https://inconsciente-api.azurewebsites.net"
+
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -23,9 +25,9 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface InconscienteApiClient {
-    @GET("marketing")
-    fun getMarketingPropertiesAsync():
-            Deferred<List<MarketingProperty>>
+    @GET("message")
+    fun getMessagePropertiesAsync():
+            Deferred<List<MessageProperty>>
 }
 
 

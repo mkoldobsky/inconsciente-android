@@ -1,4 +1,4 @@
-package com.inconsciente.colectiv.fragments
+package com.inconsciente.colectiv.ui.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.inconsciente.colectiv.databinding.GridViewItemBinding
-import com.inconsciente.colectiv.network.MarketingProperty
+import com.inconsciente.colectiv.network.MessageProperty
 
-class PhotoGridAdapter : ListAdapter<MarketingProperty,
+class PhotoGridAdapter : ListAdapter<MessageProperty,
         PhotoGridAdapter.MarketingPropertyViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -25,17 +25,17 @@ class PhotoGridAdapter : ListAdapter<MarketingProperty,
         val marketingProperty = getItem(position)
         holder.bind(marketingProperty)
     }
-    companion object DiffCallback : DiffUtil.ItemCallback<MarketingProperty>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<MessageProperty>() {
         override fun areItemsTheSame(
-            oldItem: MarketingProperty,
-            newItem: MarketingProperty
+            oldItem: MessageProperty,
+            newItem: MessageProperty
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: MarketingProperty,
-            newItem: MarketingProperty
+            oldItem: MessageProperty,
+            newItem: MessageProperty
         ): Boolean {
             return oldItem.title == newItem.title
         }
@@ -44,8 +44,8 @@ class PhotoGridAdapter : ListAdapter<MarketingProperty,
                                       GridViewItemBinding
     ):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(marketingProperty: MarketingProperty) {
-            binding.property = marketingProperty
+        fun bind(messageProperty: MessageProperty) {
+            binding.property = messageProperty
             binding.executePendingBindings()
         }
     }

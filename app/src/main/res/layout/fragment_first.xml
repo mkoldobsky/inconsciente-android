@@ -24,13 +24,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.inconsciente.colectiv.MarketingViewModel" />
+            type="com.inconsciente.colectiv.viewmodels.MessageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.inconsciente.colectiv.MainActivity">
+        tools:context="com.inconsciente.colectiv.ui.MainActivity">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/photos_grid"
             android:layout_width="0dp"

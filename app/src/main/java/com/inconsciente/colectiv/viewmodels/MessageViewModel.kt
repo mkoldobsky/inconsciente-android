@@ -1,38 +1,33 @@
-package com.inconsciente.colectiv
+package com.inconsciente.colectiv.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.inconsciente.colectiv.database.getDatabase
-import com.inconsciente.colectiv.network.InconscienteApi
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import com.inconsciente.colectiv.network.MarketingProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
 import java.io.IOException
 
 
-enum class MarketingApiStatus { LOADING, ERROR, DONE }
+enum class MessageApiStatus { LOADING, ERROR, DONE }
 
-class MarketingViewModel(application: Application): AndroidViewModel(application) {
+class MessageViewModel(application: Application): AndroidViewModel(application) {
 
-    // The internal MutableLiveData String that stores the most recent response
-    private val _status = MutableLiveData<MarketingApiStatus>()
 
-    //private val _properties = MutableLiveData<List<MarketingProperty>>()
+    private val _status = MutableLiveData<MessageApiStatus>()
 
-    val status: LiveData<MarketingApiStatus>
+    val status: LiveData<MessageApiStatus>
         get() = _status
 
 
     private val inconscienteRepository = InconscienteRepository(getDatabase(application))
 
-    val properties = inconscienteRepository.marketingList
+    val properties = inconscienteRepository.messageList
 
     private var viewModelJob = Job()
 
@@ -52,15 +47,18 @@ class MarketingViewModel(application: Application): AndroidViewModel(application
      */
     private fun refreshDataFromRepository() {
 
-        _status.value = MarketingApiStatus.LOADING
+        _status.value =
+            MessageApiStatus.LOADING
         coroutineScope.launch {
             try {
-                inconscienteRepository.refreshMarketing()
-                _status.value = MarketingApiStatus.DONE
+                inconscienteRepository.refreshMessage()
+                _status.value =
+                    MessageApiStatus.DONE
 
 
             } catch (networkError: IOException) {
-                _status.value = MarketingApiStatus.ERROR
+                _status.value =
+                    MessageApiStatus.ERROR
 
             }
         }

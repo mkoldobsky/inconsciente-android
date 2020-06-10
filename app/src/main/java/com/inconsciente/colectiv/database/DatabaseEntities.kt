@@ -2,10 +2,10 @@ package com.inconsciente.colectiv.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.inconsciente.colectiv.network.MarketingProperty
+import com.inconsciente.colectiv.network.MessageProperty
 
 @Entity
-data class MarketingEntity constructor(
+data class MessageEntity constructor(
     @PrimaryKey
     val title: String,
     val description: String,
@@ -14,9 +14,9 @@ data class MarketingEntity constructor(
 )
 
 
-fun List<MarketingEntity>.asDomainModel(): List<MarketingProperty> {
+fun List<MessageEntity>.asDomainModel(): List<MessageProperty> {
     return map {
-        MarketingProperty(
+        MessageProperty(
             title = it.title,
             description = it.description,
             imageUrl = it.imageUrl,
@@ -24,9 +24,9 @@ fun List<MarketingEntity>.asDomainModel(): List<MarketingProperty> {
     }
 }
 
-fun List<MarketingProperty>.asDatabaseModel(): List<MarketingEntity>{
+fun List<MessageProperty>.asDatabaseModel(): List<MessageEntity>{
     return map {
-        MarketingEntity(
+        MessageEntity(
             title = it.title,
             description = it.description,
             imageUrl = it.imageUrl,

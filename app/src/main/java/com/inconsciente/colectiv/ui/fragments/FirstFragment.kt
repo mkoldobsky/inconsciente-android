@@ -1,10 +1,10 @@
-package com.inconsciente.colectiv.fragments
+package com.inconsciente.colectiv.ui.fragments
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.inconsciente.colectiv.MarketingViewModel
+import com.inconsciente.colectiv.viewmodels.MessageViewModel
 import com.inconsciente.colectiv.databinding.FragmentFirstBinding
 
 /**
@@ -14,8 +14,8 @@ class FirstFragment : Fragment() {
 
 
 
-    private val viewModel: MarketingViewModel by lazy {
-        ViewModelProviders.of(this).get(MarketingViewModel::class.java)
+    private val viewModel: MessageViewModel by lazy {
+        ViewModelProviders.of(this).get(MessageViewModel::class.java)
     }
 
     /**
