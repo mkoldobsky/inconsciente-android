@@ -32,7 +32,10 @@ import java.util.concurrent.TimeUnit
  */
 class ColectivApplication : Application() {
 
-
+    companion object {
+        lateinit var instance: ColectivApplication
+            private set
+    }
     private val applicationScope = CoroutineScope(Dispatchers.Default)
 
     val constraints = Constraints.Builder()

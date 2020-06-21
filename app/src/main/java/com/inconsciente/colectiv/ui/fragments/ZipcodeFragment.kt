@@ -18,7 +18,6 @@ class ZipcodeFragment : Fragment() {
         // Inflate the layout for this fragment.
         val view = inflater.inflate(R.layout.zipcode_fragment, container, false)
 
-        // Set an error if the password is less than 8 characters.
         view.next_button.setOnClickListener {
             if (!isValidZipcode(zipcode_edit_text.text!!)) {
                 zipcode_text_input.error = getString(R.string.zipcode_error)
@@ -26,7 +25,7 @@ class ZipcodeFragment : Fragment() {
                 // Clear the error.
                 zipcode_text_input.error = null
                 // Navigate to the next Fragment.
-                (activity as NavigationHost).navigateTo(FirstFragment(), false)
+                (activity as NavigationHost).navigateTo(MessageFragment(), false)
             }
         }
 

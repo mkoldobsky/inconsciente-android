@@ -18,12 +18,10 @@ enum class MessageApiStatus { LOADING, ERROR, DONE }
 
 class MessageViewModel(application: Application): AndroidViewModel(application) {
 
-
     private val _status = MutableLiveData<MessageApiStatus>()
 
     val status: LiveData<MessageApiStatus>
         get() = _status
-
 
     private val inconscienteRepository = InconscienteRepository(getDatabase(application))
 
@@ -40,7 +38,6 @@ class MessageViewModel(application: Application): AndroidViewModel(application) 
     }
 
 
-
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
@@ -54,12 +51,9 @@ class MessageViewModel(application: Application): AndroidViewModel(application) 
                 inconscienteRepository.refreshMessage()
                 _status.value =
                     MessageApiStatus.DONE
-
-
             } catch (networkError: IOException) {
                 _status.value =
                     MessageApiStatus.ERROR
-
             }
         }
     }

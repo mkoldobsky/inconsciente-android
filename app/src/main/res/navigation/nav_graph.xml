@@ -24,9 +24,9 @@
     app:startDestination="@id/firstFragment">
     <fragment
         android:id="@+id/firstFragment"
-        android:name="com.inconsciente.colectiv.ui.fragments.FirstFragment"
+        android:name="com.inconsciente.colectiv.ui.fragments.MessageFragment"
         android:label="fragment_overview"
-        tools:layout="@layout/fragment_first" >
+        tools:layout="@layout/message_fragment" >
 
     </fragment>
 

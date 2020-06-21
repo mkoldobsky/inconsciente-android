@@ -16,4 +16,8 @@
     <string name="button_next">validar</string>
     <string name="button_cancel">cancelar</string>
     <string name="zipcode_error">No es un código postal válido</string>
+    <string name="colectiv_search_title">Buscar</string>
+    <string name="colectiv_filter_title">Filtro</string>
+    <string name="message_title">Título</string>
+    <string name="message_description">Descripción</string>
 </resources>
