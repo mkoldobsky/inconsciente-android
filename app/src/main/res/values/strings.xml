@@ -12,4 +12,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_zipcode">código postal</string>
+    <string name="button_validate">validar</string>
+    <string name="button_cancel">cancelar</string>
+    <string name="zipcode_error">No es un código postal válido</string>
+    <string name="colectiv_search_title">Buscar</string>
+    <string name="colectiv_filter_title">Filtro</string>
+    <string name="message_title">Título</string>
+    <string name="message_description">Descripción</string>
+    <string name="congrats_message">Felicitaciones tu zona tiene envios gratuitos. Presioná siguiente para ver las ofertas que tenemos para vos</string>
+    <string name="button_next">siguiente</string>
+    <string name="no_area_message">Aún no llegamos a tu zona. {pedir mail para avisar cuando llegamos a esa zona}</string>
 </resources>

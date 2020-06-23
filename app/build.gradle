@@ -6,8 +6,11 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    dataBinding {
-        enabled = true
+
+    buildFeatures{
+        dataBinding = true
+        // for view binding :
+        viewBinding = true
     }
     buildToolsVersion "29.0.3"
 
@@ -58,6 +61,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+    implementation "com.squareup.retrofit2:converter-scalars:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
     implementation "com.squareup.moshi:moshi:$version_moshi"
@@ -75,4 +79,14 @@ dependencies {
     implementation "android.arch.work:work-runtime-ktx:$version_work"
 
     implementation "com.jakewharton.timber:timber:$version_timber"
+
+
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+
+    androidTestImplementation 'androidx.test:core:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
 }
