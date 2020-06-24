@@ -13,4 +13,7 @@
     <string name="congrats_message">Felicitaciones tu zona tiene envios gratuitos. Presioná siguiente para ver las ofertas que tenemos para vos</string>
     <string name="button_next">siguiente</string>
     <string name="no_area_message">Aún no llegamos a tu zona. {pedir mail para avisar cuando llegamos a esa zona}</string>
+    <string name="hint_name">Nombre</string>
+    <string name="hint_mail">E-mail</string>
+    <string name="button_send">enviar</string>
 </resources>

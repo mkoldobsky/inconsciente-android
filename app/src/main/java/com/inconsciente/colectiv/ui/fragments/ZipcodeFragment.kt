@@ -29,9 +29,12 @@ class ZipcodeFragment : Fragment() {
         val validateButton = view.validate_button
         val nextButton = view.next_button
         val messageTextView = view.message_text_view
+        val nameMailLayout = view.name_mail_layout
+        val nameTextView = view.name_edit_text
+        val emailTextView = view.email_edit_text
+        val sendMailButton = view.send_mail_button
 
         nextButton.setOnClickListener {
-
             // Navigate to the next Fragment.
             (activity as NavigationHost).navigateTo(MessageFragment(), false)
         }
@@ -60,6 +63,9 @@ class ZipcodeFragment : Fragment() {
                             } else {
                                 messageTextView.text = getString(R.string.no_area_message)
                                 messageTextView.visibility = View.VISIBLE
+                                validateButton.visibility = View.INVISIBLE
+                                nameMailLayout.visibility = View.VISIBLE
+
                             }
                         } catch (e: HttpException) {
                             message = "Exception ${e.message}"
@@ -72,6 +78,23 @@ class ZipcodeFragment : Fragment() {
             }
         }
 
+        sendMailButton.setOnClickListener{
+            val zipcode = zipcode_edit_text.text
+            val name = nameTextView.text
+            val email = emailTextView.text
+            CoroutineScope(Dispatchers.IO).launch {
+                val response =
+                    InconscienteApi.retrofitService.postProspect(zipcode.toString())
+                withContext(Dispatchers.Main) {
+                    var message = "Algo salió mal!"
+                    try {
+
+                    } catch () {
+                    }
+
+                }
+            }
+        }
 
         return view
     }
