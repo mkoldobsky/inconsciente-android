@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.inconsciente.colectiv.network.MessageProperty
 
 @Entity
-data class MessageEntity constructor(
+data class Message constructor(
     @PrimaryKey
     val title: String,
     val description: String,
@@ -13,8 +13,14 @@ data class MessageEntity constructor(
     val url: String
 )
 
+@Entity
+data class Config constructor(
+    @PrimaryKey
+    val zipcode: String,
+    val area: String
+)
 
-fun List<MessageEntity>.asDomainModel(): List<MessageProperty> {
+fun List<Message>.asDomainModel(): List<MessageProperty> {
     return map {
         MessageProperty(
             title = it.title,
@@ -24,9 +30,9 @@ fun List<MessageEntity>.asDomainModel(): List<MessageProperty> {
     }
 }
 
-fun List<MessageProperty>.asDatabaseModel(): List<MessageEntity>{
+fun List<MessageProperty>.asDatabaseModel(): List<Message>{
     return map {
-        MessageEntity(
+        Message(
             title = it.title,
             description = it.description,
             imageUrl = it.imageUrl,
@@ -34,3 +40,4 @@ fun List<MessageProperty>.asDatabaseModel(): List<MessageEntity>{
         )
     }
 }
+
