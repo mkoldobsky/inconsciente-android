@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.inconsciente.colectiv.R
+import com.inconsciente.colectiv.database.Config
+import com.inconsciente.colectiv.database.getDatabase
 import com.inconsciente.colectiv.network.InconscienteApi
 import com.inconsciente.colectiv.network.Prospect
+import com.inconsciente.colectiv.repository.InconscienteRepository
 import com.inconsciente.colectiv.ui.NavigationHost
 import kotlinx.android.synthetic.main.zipcode_fragment.*
 import kotlinx.android.synthetic.main.zipcode_fragment.view.*
@@ -34,10 +37,19 @@ class ZipcodeFragment : Fragment() {
         val nameTextView = view.name_edit_text
         val emailTextView = view.email_edit_text
         val sendMailButton = view.send_mail_button
+        val repository = InconscienteRepository(getDatabase(view.context))
+        CoroutineScope(Dispatchers.IO).launch{
+            val config = repository.getConfig()
+            if (config != null){
+                withContext(Dispatchers.Main) {
+                    next()
+                }
+            }
+        }
+
 
         nextButton.setOnClickListener {
-            // Navigate to the next Fragment.
-            (activity as NavigationHost).navigateTo(MessageFragment(), false)
+            next()
         }
         validateButton.setOnClickListener {
             val zipcode = zipcode_edit_text.text
@@ -49,6 +61,8 @@ class ZipcodeFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val response =
                         InconscienteApi.retrofitService.getAreaByZipcode(zipcode.toString())
+                    val config = Config(zipcode.toString(), response.body()?.name.toString())
+                    repository.saveConfig(config);
                     withContext(Dispatchers.Main) {
                         var message = "Algo salió mal!"
                         try {
@@ -59,6 +73,7 @@ class ZipcodeFragment : Fragment() {
                                 message = "area ${response.body()?.name}"
                                 messageTextView.text = getString(R.string.congrats_message)
                                 messageTextView.visibility = View.VISIBLE
+
                                 Timber.i(message)
                                 Toast.makeText(view.context, message, Toast.LENGTH_LONG)
                             } else {
@@ -90,7 +105,7 @@ class ZipcodeFragment : Fragment() {
                     var message = "Algo salió mal!"
                     try {
 
-                        (activity as NavigationHost).navigateTo(MessageFragment(), false)
+                        next()
                         
                     } catch (e: HttpException) {
                         message = "Exception ${e.message}"
@@ -101,6 +116,10 @@ class ZipcodeFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun next() {
+        (activity as NavigationHost).navigateTo(MessageFragment(), false)
     }
 
     private fun isValidZipcode(zipcodeText: Editable?): Boolean {

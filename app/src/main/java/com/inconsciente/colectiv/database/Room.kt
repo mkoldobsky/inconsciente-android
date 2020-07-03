@@ -6,16 +6,26 @@ import androidx.room.*
 
 
 @Dao
-interface InconscienteDao {
-    @Query("select * from messageentity")
-    fun getMessages(): LiveData<List<MessageEntity>>
+interface MessageDao {
+    @Query("select * from message")
+    fun getMessages(): LiveData<List<Message>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll( videos: List<MessageEntity>)
+    fun insertAll( videos: List<Message>)
+
 }
 
-@Database(entities = [MessageEntity::class], version = 1)
+@Dao
+interface ConfigDao{
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    fun insertConfig(config: Config)
+    @Query("select * from config")
+    fun getConfig(): Config
+}
+
+@Database(entities = [Message::class, Config::class], version = 1)
 abstract class InconscienteDatabase: RoomDatabase() {
-    abstract val inconscienteDao: InconscienteDao
+    abstract val messageDao: MessageDao
+    abstract val configDao: ConfigDao
 }
 
 private lateinit var INSTANCE: InconscienteDatabase
