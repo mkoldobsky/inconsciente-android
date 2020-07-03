@@ -11,11 +11,15 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 //private const val BASE_URL = "https://inconsciente-api.herokuapp.com"
-private const val BASE_URL = "https://inconsciente-api.azurewebsites.net"
+//private const val BASE_URL = "https://inconsciente-api.azurewebsites.net"
+//private const val BASE_URL = "http://colectiv-api2.us-east-2.elasticbeanstalk.com"
+private const val BASE_URL = "https://inconsciente.com.ar"
 
 
 private val moshi = Moshi.Builder()
@@ -36,6 +40,8 @@ interface InconscienteApiClient {
     @GET("/zipcode/{zipcode}/area")
     suspend fun getAreaByZipcode(@Path("zipcode") zipcode : String) : Response<AreaProperty>
 
+    @POST("/prospect")
+    suspend fun postProspect(@Body prospect: Prospect)
 }
 
 

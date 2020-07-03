@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.inconsciente.colectiv.R
 import com.inconsciente.colectiv.network.InconscienteApi
+import com.inconsciente.colectiv.network.Prospect
 import com.inconsciente.colectiv.ui.NavigationHost
 import kotlinx.android.synthetic.main.zipcode_fragment.*
 import kotlinx.android.synthetic.main.zipcode_fragment.view.*
@@ -78,20 +79,23 @@ class ZipcodeFragment : Fragment() {
             }
         }
 
-        sendMailButton.setOnClickListener{
+        sendMailButton.setOnClickListener {
             val zipcode = zipcode_edit_text.text
             val name = nameTextView.text
             val email = emailTextView.text
             CoroutineScope(Dispatchers.IO).launch {
-                val response =
-                    InconscienteApi.retrofitService.postProspect(zipcode.toString())
+                val prospect = Prospect(zipcode.toString(), name.toString(), email.toString())
+                InconscienteApi.retrofitService.postProspect(prospect)
                 withContext(Dispatchers.Main) {
                     var message = "Algo salió mal!"
                     try {
 
-                    } catch () {
+                        (activity as NavigationHost).navigateTo(MessageFragment(), false)
+                        
+                    } catch (e: HttpException) {
+                        message = "Exception ${e.message}"
                     }
-
+                    Toast.makeText(view.context, message, Toast.LENGTH_LONG)
                 }
             }
         }
