@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.inconsciente.colectiv.R
 import com.inconsciente.colectiv.network.InconscienteApi
+import com.inconsciente.colectiv.network.Prospect
 import com.inconsciente.colectiv.ui.NavigationHost
 import kotlinx.android.synthetic.main.zipcode_fragment.*
 import kotlinx.android.synthetic.main.zipcode_fragment.view.*
@@ -29,9 +30,12 @@ class ZipcodeFragment : Fragment() {
         val validateButton = view.validate_button
         val nextButton = view.next_button
         val messageTextView = view.message_text_view
+        val nameMailLayout = view.name_mail_layout
+        val nameTextView = view.name_edit_text
+        val emailTextView = view.email_edit_text
+        val sendMailButton = view.send_mail_button
 
         nextButton.setOnClickListener {
-
             // Navigate to the next Fragment.
             (activity as NavigationHost).navigateTo(MessageFragment(), false)
         }
@@ -60,6 +64,9 @@ class ZipcodeFragment : Fragment() {
                             } else {
                                 messageTextView.text = getString(R.string.no_area_message)
                                 messageTextView.visibility = View.VISIBLE
+                                validateButton.visibility = View.INVISIBLE
+                                nameMailLayout.visibility = View.VISIBLE
+
                             }
                         } catch (e: HttpException) {
                             message = "Exception ${e.message}"
@@ -72,6 +79,26 @@ class ZipcodeFragment : Fragment() {
             }
         }
 
+        sendMailButton.setOnClickListener {
+            val zipcode = zipcode_edit_text.text
+            val name = nameTextView.text
+            val email = emailTextView.text
+            CoroutineScope(Dispatchers.IO).launch {
+                val prospect = Prospect(zipcode.toString(), name.toString(), email.toString())
+                InconscienteApi.retrofitService.postProspect(prospect)
+                withContext(Dispatchers.Main) {
+                    var message = "Algo salió mal!"
+                    try {
+
+                        (activity as NavigationHost).navigateTo(MessageFragment(), false)
+                        
+                    } catch (e: HttpException) {
+                        message = "Exception ${e.message}"
+                    }
+                    Toast.makeText(view.context, message, Toast.LENGTH_LONG)
+                }
+            }
+        }
 
         return view
     }
