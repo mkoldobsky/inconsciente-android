@@ -2,7 +2,10 @@ package com.inconsciente.colectiv.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.inconsciente.colectiv.network.AreaProperty
 import com.inconsciente.colectiv.network.MessageProperty
+import java.sql.Date
+
 
 @Entity
 data class Message constructor(
@@ -12,15 +15,21 @@ data class Message constructor(
     val imageUrl: String,
     val url: String
 )
+@Entity
+data class Area constructor(
+    @PrimaryKey
+    val name:String,
+    val zipcodes: String
+)
 
 @Entity
 data class Config constructor(
     @PrimaryKey
     val zipcode: String,
-    val area: String
+    val nextOfferTime: Long
 )
 
-fun List<Message>.asDomainModel(): List<MessageProperty> {
+fun List<Message>.asMessageProperty(): List<MessageProperty> {
     return map {
         MessageProperty(
             title = it.title,
@@ -30,7 +39,7 @@ fun List<Message>.asDomainModel(): List<MessageProperty> {
     }
 }
 
-fun List<MessageProperty>.asDatabaseModel(): List<Message>{
+fun List<MessageProperty>.asMessageDatabase(): List<Message>{
     return map {
         Message(
             title = it.title,
@@ -41,3 +50,21 @@ fun List<MessageProperty>.asDatabaseModel(): List<Message>{
     }
 }
 
+
+fun List<Area>.asAreaProperty(): List<AreaProperty> {
+    return map {
+        AreaProperty(
+            name = it.name,
+            zipcodes = it.zipcodes
+           )
+    }
+}
+
+fun List<AreaProperty>.asAreaDatabase(): List<Area>{
+    return map {
+        Area(
+            name = it.name,
+            zipcodes = it.zipcodes
+        )
+    }
+}

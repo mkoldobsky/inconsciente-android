@@ -13,6 +13,7 @@ import com.inconsciente.colectiv.database.getDatabase
 import com.inconsciente.colectiv.network.InconscienteApi
 import com.inconsciente.colectiv.network.Prospect
 import com.inconsciente.colectiv.repository.InconscienteRepository
+import com.inconsciente.colectiv.service.ConfigService
 import com.inconsciente.colectiv.ui.NavigationHost
 import kotlinx.android.synthetic.main.zipcode_fragment.*
 import kotlinx.android.synthetic.main.zipcode_fragment.view.*
@@ -37,10 +38,10 @@ class ZipcodeFragment : Fragment() {
         val nameTextView = view.name_edit_text
         val emailTextView = view.email_edit_text
         val sendMailButton = view.send_mail_button
-        val repository = InconscienteRepository(getDatabase(view.context))
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = InconscienteRepository(getDatabase(view.context))
             val config = repository.getConfig()
-            if (config != null){
+            if (config != null && config.zipcode != "") {
                 withContext(Dispatchers.Main) {
                     next()
                 }
@@ -59,42 +60,42 @@ class ZipcodeFragment : Fragment() {
                 zipcode_text_input.error = null
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    val response =
-                        InconscienteApi.retrofitService.getAreaByZipcode(zipcode.toString())
-                    val config = Config(zipcode.toString(), response.body()?.name.toString())
-                    repository.saveConfig(config);
-                    withContext(Dispatchers.Main) {
-                        var message = "Algo salió mal!"
-                        try {
-                            if (response.isSuccessful) {
-                                validateButton.visibility = View.INVISIBLE
-                                nextButton.visibility = View.VISIBLE
+                    val configService = ConfigService(view.context)
+                    val area = configService.getAreaFromZipcode(zipcode.toString())
+                    configService.updateConfigWithZipcode(zipcode.toString())
 
-                                message = "area ${response.body()?.name}"
-                                messageTextView.text = getString(R.string.congrats_message)
-                                messageTextView.visibility = View.VISIBLE
+                    withContext(Dispatchers.Main){
+                    var message = "Algo salió mal!"
+                    try {
+                        if (area != null) {
+                            validateButton.visibility = View.INVISIBLE
+                            nextButton.visibility = View.VISIBLE
 
-                                Timber.i(message)
-                                Toast.makeText(view.context, message, Toast.LENGTH_LONG)
-                            } else {
-                                messageTextView.text = getString(R.string.no_area_message)
-                                messageTextView.visibility = View.VISIBLE
-                                validateButton.visibility = View.INVISIBLE
-                                nameMailLayout.visibility = View.VISIBLE
+                            message = "area ${area.name}"
+                            messageTextView.text = getString(R.string.congrats_message)
+                            messageTextView.visibility = View.VISIBLE
 
-                            }
-                        } catch (e: HttpException) {
-                            message = "Exception ${e.message}"
+                            Timber.i(message)
+                            Toast.makeText(view.context, message, Toast.LENGTH_LONG)
+                        } else {
+                            messageTextView.text = getString(R.string.no_area_message)
+                            messageTextView.visibility = View.VISIBLE
+                            validateButton.visibility = View.INVISIBLE
+                            nameMailLayout.visibility = View.VISIBLE
+
                         }
-                        Toast.makeText(view.context, message, Toast.LENGTH_LONG)
+                    } catch (e: HttpException) {
+                        message = "Exception ${e.message}"
                     }
+                    Toast.makeText(view.context, message, Toast.LENGTH_LONG)
                 }
-
-
+                }
             }
+
+
         }
 
-        sendMailButton.setOnClickListener {
+        sendMailButton.setOnClickListener{
             val zipcode = zipcode_edit_text.text
             val name = nameTextView.text
             val email = emailTextView.text
@@ -106,7 +107,7 @@ class ZipcodeFragment : Fragment() {
                     try {
 
                         next()
-                        
+
                     } catch (e: HttpException) {
                         message = "Exception ${e.message}"
                     }

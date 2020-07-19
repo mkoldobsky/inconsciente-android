@@ -16,9 +16,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-//private const val BASE_URL = "https://inconsciente-api.herokuapp.com"
-//private const val BASE_URL = "https://inconsciente-api.azurewebsites.net"
-//private const val BASE_URL = "http://colectiv-api2.us-east-2.elasticbeanstalk.com"
 private const val BASE_URL = "https://inconsciente.com.ar"
 
 
@@ -35,13 +32,13 @@ private val retrofit = Retrofit.Builder()
 
 interface InconscienteApiClient {
     @GET("/message")
-    fun getMessagePropertiesAsync():
-            Deferred<List<MessageProperty>>
+    suspend fun getMessagePropertiesAsync(): ApiResponse<List<MessageProperty>>
     @GET("/zipcode/{zipcode}/area")
-    suspend fun getAreaByZipcode(@Path("zipcode") zipcode : String) : Response<AreaProperty>
-
+    suspend fun getAreaByZipcode(@Path("zipcode") zipcode : String) : ApiResponse<AreaProperty>
     @POST("/prospect")
-    suspend fun postProspect(@Body prospect: Prospect)
+    suspend fun postProspect(@Body prospect: Prospect) : ApiResponse<Prospect>
+    @GET("/config/android")
+    suspend fun getConfig() : ApiResponse<ConfigProperty>
 }
 
 

@@ -11,7 +11,7 @@ interface MessageDao {
     fun getMessages(): LiveData<List<Message>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(videos: List<Message>)
+    fun insertAll(messages: List<Message>)
 
 }
 
@@ -22,12 +22,25 @@ interface ConfigDao {
 
     @Query("select * from config")
     fun getConfig(): Config
+
+
 }
 
-@Database(entities = [Message::class, Config::class], version = 2)
+@Dao
+interface AreaDao {
+    @Query("select * from area")
+    fun getAreas(): List<Area>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(areas: List<Area>)
+
+}
+
+@Database(entities = [Message::class, Config::class, Area::class], version = 3)
 abstract class InconscienteDatabase : RoomDatabase() {
     abstract val messageDao: MessageDao
     abstract val configDao: ConfigDao
+    abstract val areaDao: AreaDao
 }
 
 private lateinit var INSTANCE: InconscienteDatabase
