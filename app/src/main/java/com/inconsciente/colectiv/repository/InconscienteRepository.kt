@@ -42,7 +42,8 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
             if (response.code == 200){
                 val configFromApi = response.results
                 val configFromDb = database.configDao.getConfig()
-                val config = Config(configFromDb.zipcode, configFromApi.nextOfferTime.time)
+                val zipcode = if (configFromDb == null) "nozipcode" else configFromDb.zipcode
+                val config = Config(zipcode, configFromApi.nextOfferTime.time)
                 database.configDao.insertConfig(config)
                 database.messageDao.insertAll(configFromApi.messages.asMessageDatabase())
                 database.areaDao.insertAll(configFromApi.areas.asAreaDatabase())

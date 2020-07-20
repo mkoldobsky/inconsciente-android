@@ -19,7 +19,7 @@ data class Message constructor(
 data class Area constructor(
     @PrimaryKey
     val name:String,
-    val zipcodes: String
+    val zipcodes: List<String>
 )
 
 @Entity

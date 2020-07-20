@@ -22,6 +22,7 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
         val repository = InconscienteRepository(database)
 
         try {
+            createNotification("Inconsciente", "Let's call API")
             repository.refreshConfig( )
             createNotification("Inconsciente", "Api just called")
 

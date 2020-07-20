@@ -41,7 +41,7 @@ class ZipcodeFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val repository = InconscienteRepository(getDatabase(view.context))
             val config = repository.getConfig()
-            if (config != null && config.zipcode != "") {
+            if (config != null && config.zipcode != "nozipcode") {
                 withContext(Dispatchers.Main) {
                     next()
                 }
