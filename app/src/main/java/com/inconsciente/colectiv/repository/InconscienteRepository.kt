@@ -3,6 +3,7 @@ package com.inconsciente.colectiv.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.inconsciente.colectiv.database.*
+import com.inconsciente.colectiv.network.AreaProperty
 
 import com.inconsciente.colectiv.network.InconscienteApi
 import com.inconsciente.colectiv.network.MessageProperty
@@ -14,34 +15,56 @@ import timber.log.Timber
 
 class InconscienteRepository(private val database: InconscienteDatabase) {
 
-    val messageList = database.messageDao.getMessages().asMessageProperty()
+    fun getMessages(): List<MessageProperty> {
+        return database.messageDao.getMessages().asMessageProperty()
+    }
 
-    val areaList = database.areaDao.getAreas().asAreaProperty()
 
-    fun saveConfig(config: Config){
+    fun getAreas(): List<AreaProperty> {
+        return database.areaDao.getAreas().asAreaProperty()
+    }
+
+
+    fun saveConfig(config: Config) {
         database.configDao.insertConfig(config)
     }
 
-    fun getConfig():Config{
-       return database.configDao.getConfig()
+    fun getConfig(): Config {
+        return database.configDao.getConfig()
     }
 
-    suspend fun refreshConfig(){
-        withContext(Dispatchers.IO){
+    suspend fun refreshConfig() {
+        withContext(Dispatchers.IO) {
             val response = InconscienteApi.retrofitService.getConfig()
-            Timber.i("inconsciente API called")
-            if (response.code == 200){
+            if (response.code == 200) {
                 val configFromApi = response.results
                 val configFromDb = database.configDao.getConfig()
-                val zipcode = ""
-                if (configFromDb != null){
-                val zipcode = configFromDb.zipcode}
-                val config = Config(zipcode, configFromApi.nextOfferTime.time)
+                var zipcode = "nozipcode"
+                var noShowMessage = false
+                if (configFromDb != null) {
+                    zipcode = configFromDb.zipcode
+                    noShowMessage = configFromDb.noShowMessage
+                }
+                val config = Config(zipcode, noShowMessage, configFromApi.nextOfferTime.time)
                 database.configDao.insertConfig(config)
                 database.messageDao.insertAll(configFromApi.messages.asMessageDatabase())
                 database.areaDao.insertAll(configFromApi.areas.asAreaDatabase())
             }
         }
+    }
+
+    suspend fun updateConfigWithNoShowMessage(noShowMessage: Boolean) {
+        withContext(Dispatchers.IO) {
+            val configFromDb = database.configDao.getConfig()
+            var config = Config(configFromDb.zipcode, noShowMessage, configFromDb.nextOfferTime)
+            database.configDao.insertConfig(config)
+        }
+
+    }
+
+    fun getNoShowMessages():Boolean{
+        val configFromDb = database.configDao.getConfig()
+        return configFromDb.noShowMessage
     }
 }
 

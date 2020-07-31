@@ -1,5 +1,6 @@
 package com.inconsciente.colectiv.database
 
+import android.database.sqlite.SQLiteBindOrColumnIndexOutOfRangeException
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.inconsciente.colectiv.network.AreaProperty
@@ -26,6 +27,7 @@ data class Area constructor(
 data class Config constructor(
     @PrimaryKey
     val zipcode: String,
+    val noShowMessage: Boolean,
     val nextOfferTime: Long
 )
 
