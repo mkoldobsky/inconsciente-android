@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.inconsciente.colectiv.R
 import com.inconsciente.colectiv.network.MessageProperty
 import com.inconsciente.colectiv.service.ConfigService
+import com.inconsciente.colectiv.ui.NavigationHost
 import com.inconsciente.colectiv.viewmodels.MessageViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_message.*
@@ -65,22 +66,32 @@ class MessageFragment : Fragment() {
 
             messages = service.getMessages()
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 setMessageToUi(textTitle, textDescription, messageImage)
             }
 
         }
-        nextButton.setOnClickListener{
-            if(viewModel.messageSelected < messages.size - 1){ viewModel.messageSelected++}
-            nextButton.visibility = if (viewModel.messageSelected < messages.size) View.VISIBLE else View.INVISIBLE
-            previousButton.visibility = if (viewModel.messageSelected > 0) View.VISIBLE else View.INVISIBLE
+        nextButton.setOnClickListener {
+            if (viewModel.messageSelected < messages.size - 1) {
+                viewModel.messageSelected++
+            } else {
+                (activity as NavigationHost).navigateTo(DashboardFragment(), false)
+            }
+            nextButton.visibility =
+                if (viewModel.messageSelected < messages.size) View.VISIBLE else View.INVISIBLE
+            previousButton.visibility =
+                if (viewModel.messageSelected > 0) View.VISIBLE else View.INVISIBLE
             setMessageToUi(textTitle, textDescription, messageImage)
         }
 
-        previousButton.setOnClickListener{
-            if(viewModel.messageSelected > 0){ viewModel.messageSelected--}
-            nextButton.visibility = if (viewModel.messageSelected < messages.size) View.VISIBLE else View.INVISIBLE
-            previousButton.visibility = if (viewModel.messageSelected > 0) View.VISIBLE else View.INVISIBLE
+        previousButton.setOnClickListener {
+            if (viewModel.messageSelected > 0) {
+                viewModel.messageSelected--
+            }
+            nextButton.visibility =
+                if (viewModel.messageSelected < messages.size) View.VISIBLE else View.INVISIBLE
+            previousButton.visibility =
+                if (viewModel.messageSelected > 0) View.VISIBLE else View.INVISIBLE
             setMessageToUi(textTitle, textDescription, messageImage)
         }
         visible = true
@@ -151,7 +162,6 @@ class MessageFragment : Fragment() {
     //private var dummyButton: Button? = null
     private var fullscreenContent: View? = null
     //private var fullscreenContentControls: View? = null
-
 
 
     override fun onResume() {
