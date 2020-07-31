@@ -61,6 +61,7 @@ class ZipcodeFragment : Fragment() {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val configService = ConfigService(view.context)
+                    configService.refreshConfigFromNetwork()
                     val area = configService.getAreaFromZipcode(zipcode.toString())
                     configService.updateConfigWithZipcode(zipcode.toString())
 

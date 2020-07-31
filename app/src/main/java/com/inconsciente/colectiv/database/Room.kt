@@ -1,14 +1,16 @@
 package com.inconsciente.colectiv.database
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.inconsciente.colectiv.ColectivApplication
 
 
 @Dao
 interface MessageDao {
     @Query("select * from message")
-    fun getMessages(): LiveData<List<Message>>
+    fun getMessages(): List<Message>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(messages: List<Message>)
@@ -51,6 +53,21 @@ fun getDatabase(context: Context): InconscienteDatabase {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
                 context.applicationContext,
+                InconscienteDatabase::class.java,
+                "inconsciente"
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+    }
+    return INSTANCE
+}
+
+fun getApplicationDatabase(application: Application): InconscienteDatabase{
+    synchronized(InconscienteDatabase::class.java) {
+        if (!::INSTANCE.isInitialized) {
+            INSTANCE = Room.databaseBuilder(
+                application.applicationContext,
                 InconscienteDatabase::class.java,
                 "inconsciente"
             )

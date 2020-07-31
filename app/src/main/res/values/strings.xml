@@ -16,4 +16,12 @@
     <string name="hint_name">Nombre</string>
     <string name="hint_mail">E-mail</string>
     <string name="button_send">enviar</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="previous"><![CDATA[<-]]></string>
+    <string name="next"><![CDATA[->]]></string>
+    <string name="imagen">TODO</string>
+    <string name="image">TODO</string>
+    <string name="button_previous">anterior</string>
+
 </resources>

@@ -1,17 +1,21 @@
 package com.inconsciente.colectiv.service
 
 import android.content.Context
-import com.inconsciente.colectiv.database.Area
 import com.inconsciente.colectiv.database.Config
 import com.inconsciente.colectiv.database.getDatabase
 import com.inconsciente.colectiv.network.AreaProperty
+import com.inconsciente.colectiv.network.MessageProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class ConfigService constructor(context: Context) {
     val context = context
+
+    suspend fun refreshConfigFromNetwork(){
+        val database = getDatabase(context)
+        val repository = InconscienteRepository(database)
+        repository.refreshConfig()
+    }
 
     fun getAreaFromZipcode(zipcode: String): AreaProperty? {
         val database = getDatabase(context)
@@ -29,6 +33,11 @@ class ConfigService constructor(context: Context) {
 
         val config = Config(zipcode, nextOfferTime)
         repository.saveConfig(config)
+    }
+
+    fun getMessages():List<MessageProperty>{
+        val repository = InconscienteRepository(getDatabase(context))
+        return  repository.messageList
     }
 
 }
