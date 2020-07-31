@@ -4,7 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.inconsciente.colectiv.database.Message
+import com.inconsciente.colectiv.database.getApplicationDatabase
 import com.inconsciente.colectiv.database.getDatabase
+import com.inconsciente.colectiv.network.MessageProperty
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,52 +17,19 @@ import com.inconsciente.colectiv.repository.InconscienteRepository
 import java.io.IOException
 
 
-enum class MessageApiStatus { LOADING, ERROR, DONE }
-
 class MessageViewModel(application: Application): AndroidViewModel(application) {
 
-    private val _status = MutableLiveData<MessageApiStatus>()
+    var messageSelected :Int = 0
 
-    val status: LiveData<MessageApiStatus>
-        get() = _status
-
-    private val inconscienteRepository = InconscienteRepository(getDatabase(application))
-
-    val properties = inconscienteRepository.messageList
-
-    private var viewModelJob = Job()
-
-    private val coroutineScope = CoroutineScope(
-        viewModelJob + Dispatchers.Main
-    )
-
-    init {
-        refreshDataFromRepository()
-    }
-
-
-    /**
-     * Refresh data from the repository. Use a coroutine launch to run in a
-     * background thread.
-     */
-    private fun refreshDataFromRepository() {
-
-        _status.value =
-            MessageApiStatus.LOADING
-        coroutineScope.launch {
-            try {
-                inconscienteRepository.refreshMessage()
-                _status.value =
-                    MessageApiStatus.DONE
-            } catch (networkError: IOException) {
-                _status.value =
-                    MessageApiStatus.ERROR
-            }
+    fun nextMessageSelected(totalMessages: Int){
+        if (messageSelected < totalMessages){
+            messageSelected++
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+    fun previousMessageSelected(){
+        if (messageSelected > 0){
+            messageSelected--
+        }
     }
 }

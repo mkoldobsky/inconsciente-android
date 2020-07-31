@@ -56,7 +56,7 @@ class ColectivApplication : Application() {
      * Setup WorkManager background job to 'fetch' new network data recurrently.
      */
     private fun setupRecurringWork() {
-        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(15, TimeUnit.MINUTES)
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)
             .build()
       /*  val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED)
