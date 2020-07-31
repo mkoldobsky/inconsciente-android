@@ -38,7 +38,7 @@ interface AreaDao {
 
 }
 
-@Database(entities = [Message::class, Config::class, Area::class], version = 3)
+@Database(entities = [Message::class, Config::class, Area::class], version = 4)
 @TypeConverters(ZipcodesConverter::class)
 abstract class InconscienteDatabase : RoomDatabase() {
     abstract val messageDao: MessageDao

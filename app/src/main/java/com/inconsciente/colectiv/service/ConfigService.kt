@@ -20,7 +20,7 @@ class ConfigService constructor(context: Context) {
     fun getAreaFromZipcode(zipcode: String): AreaProperty? {
         val database = getDatabase(context)
         val repository = InconscienteRepository(database)
-        val areas = repository.areaList
+        val areas = repository.getAreas()
         return areas.firstOrNull() { area -> area.zipcodes.contains(zipcode) }
     }
 
@@ -31,13 +31,24 @@ class ConfigService constructor(context: Context) {
         val configToUpdate = repository.getConfig()
         val nextOfferTime = if (configToUpdate == null) Date().time else configToUpdate.nextOfferTime
 
-        val config = Config(zipcode, nextOfferTime)
+        val config = Config(zipcode, configToUpdate.noShowMessage, nextOfferTime)
         repository.saveConfig(config)
     }
 
     fun getMessages():List<MessageProperty>{
         val repository = InconscienteRepository(getDatabase(context))
-        return  repository.messageList
+        return  repository.getMessages()
+    }
+
+    suspend fun updateConfigWithNoShowMessage(noShowMessage: Boolean){
+        val repository = InconscienteRepository(getDatabase(context))
+        repository.updateConfigWithNoShowMessage(noShowMessage)
+
+    }
+
+    fun getNoShowMessages(): Boolean{
+        val repository = InconscienteRepository(getDatabase(context))
+        return repository.getNoShowMessages()
     }
 
 }

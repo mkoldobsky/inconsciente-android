@@ -47,7 +47,6 @@ class MessageFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_message, container, false)
 
-
         return view
     }
 
@@ -58,15 +57,22 @@ class MessageFragment : Fragment() {
         val messageImage = view.message_image
         val previousButton = view.previous_button
         val nextButton = view.next_button
+        val noShowAgainCheckboxk = view.no_show_again_checkbox
+        val noShowAgainText = view.no_show_again_text
 
         previousButton.visibility = View.INVISIBLE
+        noShowAgainCheckboxk.visibility = View.INVISIBLE
+        noShowAgainText.visibility = View.INVISIBLE
 
         CoroutineScope(Dispatchers.IO).launch {
             val service = ConfigService(view.context)
-
+            val noShowMessages = service.getNoShowMessages()
             messages = service.getMessages()
 
             withContext(Dispatchers.Main) {
+                if (noShowMessages){
+                    (activity as NavigationHost).navigateTo(DashboardFragment(), false)
+                }
                 setMessageToUi(textTitle, textDescription, messageImage)
             }
 
@@ -81,6 +87,10 @@ class MessageFragment : Fragment() {
                 if (viewModel.messageSelected < messages.size) View.VISIBLE else View.INVISIBLE
             previousButton.visibility =
                 if (viewModel.messageSelected > 0) View.VISIBLE else View.INVISIBLE
+            if(viewModel.messageSelected == messages.size - 1) {
+                noShowAgainCheckboxk.visibility = View.VISIBLE
+                noShowAgainText.visibility = View.VISIBLE
+            }
             setMessageToUi(textTitle, textDescription, messageImage)
         }
 
@@ -93,6 +103,13 @@ class MessageFragment : Fragment() {
             previousButton.visibility =
                 if (viewModel.messageSelected > 0) View.VISIBLE else View.INVISIBLE
             setMessageToUi(textTitle, textDescription, messageImage)
+        }
+
+        noShowAgainCheckboxk.setOnClickListener{
+            CoroutineScope(Dispatchers.IO).launch {
+                val service = ConfigService(view.context)
+                service.updateConfigWithNoShowMessage(noShowAgainCheckboxk.isChecked())
+            }
         }
         visible = true
 
