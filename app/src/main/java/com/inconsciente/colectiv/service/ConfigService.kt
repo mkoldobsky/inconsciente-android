@@ -24,15 +24,9 @@ class ConfigService constructor(context: Context) {
         return areas.firstOrNull() { area -> area.zipcodes.contains(zipcode) }
     }
 
-    fun updateConfigWithZipcode(zipcode: String) {
-        val database = getDatabase(context)
-        val repository = InconscienteRepository(database)
-
-        val configToUpdate = repository.getConfig()
-        val nextOfferTime = if (configToUpdate == null) Date().time else configToUpdate.nextOfferTime
-
-        val config = Config(zipcode, configToUpdate.noShowMessage, nextOfferTime)
-        repository.saveConfig(config)
+    suspend fun updateConfigWithZipcode(zipcode: String) {
+        val repository = InconscienteRepository(getDatabase(context))
+        repository.updateConfigWithZipcode(zipcode)
     }
 
     fun getMessages():List<MessageProperty>{
