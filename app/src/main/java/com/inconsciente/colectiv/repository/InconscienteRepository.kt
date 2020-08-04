@@ -46,6 +46,7 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
                     noShowMessage = configFromDb.noShowMessage
                 }
                 val config = Config(zipcode, noShowMessage, configFromApi.nextOfferTime.time)
+                database.configDao.deleteConfig()
                 database.configDao.insertConfig(config)
                 database.messageDao.insertAll(configFromApi.messages.asMessageDatabase())
                 database.areaDao.insertAll(configFromApi.areas.asAreaDatabase())
@@ -57,6 +58,17 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
         withContext(Dispatchers.IO) {
             val configFromDb = database.configDao.getConfig()
             var config = Config(configFromDb.zipcode, noShowMessage, configFromDb.nextOfferTime)
+            database.configDao.deleteConfig()
+            database.configDao.insertConfig(config)
+        }
+
+    }
+
+    suspend fun updateConfigWithZipcode(zipcode: String) {
+        withContext(Dispatchers.IO) {
+            val configFromDb = database.configDao.getConfig()
+            var config = Config(zipcode, configFromDb.noShowMessage, configFromDb.nextOfferTime)
+            database.configDao.deleteConfig()
             database.configDao.insertConfig(config)
         }
 

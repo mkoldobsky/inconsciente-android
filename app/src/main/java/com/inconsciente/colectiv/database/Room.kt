@@ -25,6 +25,8 @@ interface ConfigDao {
     @Query("select * from config")
     fun getConfig(): Config
 
+    @Query("delete from config")
+    fun deleteConfig()
 
 }
 
@@ -63,17 +65,3 @@ fun getDatabase(context: Context): InconscienteDatabase {
     return INSTANCE
 }
 
-fun getApplicationDatabase(application: Application): InconscienteDatabase{
-    synchronized(InconscienteDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(
-                application.applicationContext,
-                InconscienteDatabase::class.java,
-                "inconsciente"
-            )
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-    }
-    return INSTANCE
-}
