@@ -17,7 +17,6 @@
 package com.inconsciente.colectiv
 
 import android.app.Application
-import android.os.Build
 import androidx.work.*
 import com.inconsciente.colectiv.work.RefreshDataWorker
 import kotlinx.coroutines.CoroutineScope
@@ -74,5 +73,6 @@ class ColectivApplication : Application() {
             setupRecurringWork()
         }
     }
+
 
 }

@@ -78,5 +78,10 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
         val configFromDb = database.configDao.getConfig()
         return configFromDb.noShowMessage
     }
+
+    fun getNextTimeOffer():Long{
+        val configFromDb = database.configDao.getConfig()
+        return configFromDb.nextOfferTime
+    }
 }
 

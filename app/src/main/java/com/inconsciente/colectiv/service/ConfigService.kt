@@ -6,6 +6,7 @@ import com.inconsciente.colectiv.database.getDatabase
 import com.inconsciente.colectiv.network.AreaProperty
 import com.inconsciente.colectiv.network.MessageProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
+import timber.log.Timber
 import java.util.*
 
 class ConfigService constructor(context: Context) {
@@ -43,6 +44,19 @@ class ConfigService constructor(context: Context) {
     fun getNoShowMessages(): Boolean{
         val repository = InconscienteRepository(getDatabase(context))
         return repository.getNoShowMessages()
+    }
+
+    fun geTimeToNextOffer(): Long{
+        val repository = InconscienteRepository(getDatabase(context))
+        val time = repository.getNextTimeOffer()
+        val today = Date()
+        Timber.d("NextOfferTime : ${time}")
+        return today.getTime() - time
+       /* val seconds = diff / 1000
+        val minutes = seconds / 60
+        val hours = minutes / 60
+        val days = hours / 24*/
+
     }
 
 }
