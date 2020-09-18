@@ -113,5 +113,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="no_show_again">no volver a mostrar</string>
+    <string name="channel_name">generales</string>
+    <string name="channel_description">notificaciones generales</string>
 
 </resources>

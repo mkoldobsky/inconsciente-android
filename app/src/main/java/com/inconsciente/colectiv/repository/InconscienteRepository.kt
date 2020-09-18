@@ -3,6 +3,7 @@ package com.inconsciente.colectiv.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.inconsciente.colectiv.database.*
+import com.inconsciente.colectiv.model.Areas
 import com.inconsciente.colectiv.network.AreaProperty
 
 import com.inconsciente.colectiv.network.InconscienteApi
@@ -20,8 +21,8 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
     }
 
 
-    fun getAreas(): List<AreaProperty> {
-        return database.areaDao.getAreas().asAreaProperty()
+    fun getAreas(): Areas {
+        return Areas(database.areaDao.getAreas().asAreaProperty())
     }
 
 
@@ -77,6 +78,11 @@ class InconscienteRepository(private val database: InconscienteDatabase) {
     fun getNoShowMessages():Boolean{
         val configFromDb = database.configDao.getConfig()
         return configFromDb.noShowMessage
+    }
+
+    fun getNextTimeOffer():Long{
+        val configFromDb = database.configDao.getConfig()
+        return configFromDb.nextOfferTime
     }
 }
 

@@ -1,11 +1,13 @@
 package com.inconsciente.colectiv.service
 
 import android.content.Context
-import com.inconsciente.colectiv.database.Config
 import com.inconsciente.colectiv.database.getDatabase
-import com.inconsciente.colectiv.network.AreaProperty
+import com.inconsciente.colectiv.model.Area
+import com.inconsciente.colectiv.model.Areainterface
+import com.inconsciente.colectiv.model.Offer
 import com.inconsciente.colectiv.network.MessageProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
+import timber.log.Timber
 import java.util.*
 
 class ConfigService constructor(context: Context) {
@@ -17,11 +19,11 @@ class ConfigService constructor(context: Context) {
         repository.refreshConfig()
     }
 
-    fun getAreaFromZipcode(zipcode: String): AreaProperty? {
+    fun getAreaFromZipcode(zipcode: String): Areainterface {
         val database = getDatabase(context)
         val repository = InconscienteRepository(database)
         val areas = repository.getAreas()
-        return areas.firstOrNull() { area -> area.zipcodes.contains(zipcode) }
+        return areas.getAreaByZipcode(zipcode)
     }
 
     suspend fun updateConfigWithZipcode(zipcode: String) {
@@ -43,6 +45,13 @@ class ConfigService constructor(context: Context) {
     fun getNoShowMessages(): Boolean{
         val repository = InconscienteRepository(getDatabase(context))
         return repository.getNoShowMessages()
+    }
+
+    fun millisecondsToNextOffer(): Long{
+        val offer = Offer(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000)))
+
+        return offer.millisecondsToStart()
+
     }
 
 }
