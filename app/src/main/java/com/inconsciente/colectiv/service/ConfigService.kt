@@ -1,9 +1,10 @@
 package com.inconsciente.colectiv.service
 
 import android.content.Context
-import com.inconsciente.colectiv.database.Config
 import com.inconsciente.colectiv.database.getDatabase
-import com.inconsciente.colectiv.network.AreaProperty
+import com.inconsciente.colectiv.model.Area
+import com.inconsciente.colectiv.model.Areainterface
+import com.inconsciente.colectiv.model.Offer
 import com.inconsciente.colectiv.network.MessageProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
 import timber.log.Timber
@@ -18,11 +19,11 @@ class ConfigService constructor(context: Context) {
         repository.refreshConfig()
     }
 
-    fun getAreaFromZipcode(zipcode: String): AreaProperty? {
+    fun getAreaFromZipcode(zipcode: String): Areainterface {
         val database = getDatabase(context)
         val repository = InconscienteRepository(database)
         val areas = repository.getAreas()
-        return areas.firstOrNull() { area -> area.zipcodes.contains(zipcode) }
+        return areas.getAreaByZipcode(zipcode)
     }
 
     suspend fun updateConfigWithZipcode(zipcode: String) {
@@ -46,16 +47,10 @@ class ConfigService constructor(context: Context) {
         return repository.getNoShowMessages()
     }
 
-    fun geTimeToNextOffer(): Long{
-        val repository = InconscienteRepository(getDatabase(context))
-        val time = repository.getNextTimeOffer()
-        val today = Date()
-        Timber.d("NextOfferTime : ${time}")
-        return today.getTime() - time
-       /* val seconds = diff / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val days = hours / 24*/
+    fun millisecondsToNextOffer(): Long{
+        val offer = Offer(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000)))
+
+        return offer.millisecondsToStart()
 
     }
 

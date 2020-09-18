@@ -1,11 +1,7 @@
 package com.inconsciente.colectiv.ui.fragments
 
-import android.graphics.Color
-import android.graphics.drawable.shapes.Shape
-import android.icu.lang.UCharacter.DecompositionType.CIRCLE
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +21,7 @@ class DashboardFragment : Fragment() {
     lateinit var countdown_timer: CountDownTimer
     var isRunning: Boolean = false;
     var time_in_milli_seconds = 0L
-    var time = 1L
+    var time = 10000L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +36,8 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
             val service = ConfigService(requireContext())
-            time = service.geTimeToNextOffer()
             withContext(Dispatchers.Main){
-                time_in_milli_seconds = time * 60000L
+                time_in_milli_seconds = service.millisecondsToNextOffer()
                 startTimer(time_in_milli_seconds)
 
             }
@@ -69,8 +64,6 @@ class DashboardFragment : Fragment() {
     }
 
     private fun updateTextUI() {
-        //val minute = (time_in_milli_seconds / 1000) / 60
-        //val seconds = (time_in_milli_seconds / 1000) % 60
         val seconds = time_in_milli_seconds / 1000
         val minutes = seconds / 60
         val hours = minutes / 60
@@ -78,7 +71,6 @@ class DashboardFragment : Fragment() {
 
         val text = "${days} días ${hours}:${minutes}:${seconds}"
         timer.text = text
-        Timber.d(text)
     }
 
 

@@ -68,11 +68,11 @@ class ZipcodeFragment : Fragment() {
                     withContext(Dispatchers.Main){
                     var message = "Algo salió mal!"
                     try {
-                        if (area != null) {
+                        if (area.toString() != "noarea") {
                             validateButton.visibility = View.INVISIBLE
                             nextButton.visibility = View.VISIBLE
 
-                            message = "area ${area.name}"
+                            message = "area ${area.toString()}"
                             messageTextView.text = getString(R.string.congrats_message)
                             messageTextView.visibility = View.VISIBLE
 
