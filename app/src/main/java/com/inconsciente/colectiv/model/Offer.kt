@@ -1,13 +1,11 @@
 package com.inconsciente.colectiv.model
 
-import java.util.*
-
-class Offer(private val startTime: Date, private val endTime: Date) {
+class Offer(private val duration: Duration) {
 
 
     fun millisecondsToStart(): Long {
-        val now = Date()
-        return Math.abs(startTime.getTime() - now.getTime())
+
+        return duration.millisecondsToStart()
     }
 
 
