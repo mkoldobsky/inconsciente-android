@@ -2,12 +2,11 @@ package com.inconsciente.colectiv.service
 
 import android.content.Context
 import com.inconsciente.colectiv.database.getDatabase
-import com.inconsciente.colectiv.model.Area
 import com.inconsciente.colectiv.model.Areainterface
+import com.inconsciente.colectiv.model.Duration
 import com.inconsciente.colectiv.model.Offer
 import com.inconsciente.colectiv.network.MessageProperty
 import com.inconsciente.colectiv.repository.InconscienteRepository
-import timber.log.Timber
 import java.util.*
 
 class ConfigService constructor(context: Context) {
@@ -48,9 +47,18 @@ class ConfigService constructor(context: Context) {
     }
 
     fun millisecondsToNextOffer(): Long{
-        val offer = Offer(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000)))
+        val offer = Offer(
+            Duration(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000))))
 
         return offer.millisecondsToStart()
+
+    }
+
+    fun getNextOffer(): Offer {
+        val offer = Offer(
+            Duration(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000))))
+
+        return offer
 
     }
 

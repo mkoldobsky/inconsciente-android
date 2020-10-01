@@ -5,15 +5,46 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.DashboardFragment">
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
-        android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/carView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        android:layout_margin="8dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@string/next_offer_subtitle"
+                android:textAppearance="?attr/textAppearanceBody2"
+                app:layout_constraintTop_toBottomOf="@+id/timer"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

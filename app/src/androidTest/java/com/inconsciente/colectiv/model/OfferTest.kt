@@ -9,7 +9,7 @@ internal class OfferTest{
     fun offerShouldBeNotStartedWhenCreatedWithDatePlusHour(){
         val plusOneHour = Date(System.currentTimeMillis() + (3600 * 10000))
         val endTime = Date (System.currentTimeMillis() + (360000 *1000))
-        val offer = Offer(plusOneHour, endTime)
+        val offer = Offer(Duration(plusOneHour, endTime))
 
         assertTrue(offer.millisecondsToStart() > 0)
     }

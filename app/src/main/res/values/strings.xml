@@ -115,5 +115,6 @@
     <string name="no_show_again">no volver a mostrar</string>
     <string name="channel_name">generales</string>
     <string name="channel_description">notificaciones generales</string>
+    <string name="next_offer_subtitle">tiempo hasta la próxima oferta</string>
 
 </resources>
