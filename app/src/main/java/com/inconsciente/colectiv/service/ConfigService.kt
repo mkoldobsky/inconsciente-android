@@ -48,7 +48,8 @@ class ConfigService constructor(context: Context) {
 
     fun millisecondsToNextOffer(): Long{
         val offer = Offer(
-            Duration(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000))))
+            Duration(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000))), "PetitFleur",
+        "6 cajas", 3, "https://storage.googleapis.com/inconsciente/petitfleur.jpg")
 
         return offer.millisecondsToStart()
 
@@ -56,7 +57,8 @@ class ConfigService constructor(context: Context) {
 
     fun getNextOffer(): Offer {
         val offer = Offer(
-            Duration(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000))))
+            Duration(Date(System.currentTimeMillis() + (60 * 1000)), Date(System.currentTimeMillis() + (3600 *10000))), "PetitFleur",
+            "6 cajas", 3, "https://storage.googleapis.com/inconsciente/petitfleur.jpg")
 
         return offer
 
